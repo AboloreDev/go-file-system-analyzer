@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/AboloreDev/go-file-system-analyzer/analyzer"
 	"github.com/AboloreDev/go-file-system-analyzer/scanner"
 )
 
@@ -26,17 +27,20 @@ func main() {
 	fmt.Printf("Using %d workers\n", *workers)
 
 	// Using the duplicates flag
-	if *findDupes {
-		fmt.Println("Duplicate file detection is enabled")
-	} else {
-		fmt.Println("Duplicate file detection is disabled")
-	}
+	
 
-	files, err := scanner.WalkDirectoy(*dirPath)
+	files, err := scanner.WalkDirectoryConcurrent(*dirPath, *workers, *findDupes)
 	if err != nil {
 		fmt.Printf("Error scanning directory: %v\n", err)
 		os.Exit(1)
 	}
-	
+
 	fmt.Printf("Found %d files in total\n", len(files))
+
+	// Further analysis can be done here
+	if *findDupes {
+    duplicates := analyzer.FindDuplicates(files)
+    analyzer.PrintDuplicates(duplicates)
+}
+
 }
