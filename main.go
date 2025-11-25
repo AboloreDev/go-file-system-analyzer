@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go/scanner"
 	"os"
+
+	"github.com/AboloreDev/go-file-system-analyzer/scanner"
 )
 
 func main() {
@@ -31,5 +32,11 @@ func main() {
 		fmt.Println("Duplicate file detection is disabled")
 	}
 
-	files, err := scanner.Walkdirectory(*dirPath)
+	files, err := scanner.WalkDirectoy(*dirPath)
+	if err != nil {
+		fmt.Printf("Error scanning directory: %v\n", err)
+		os.Exit(1)
+	}
+	
+	fmt.Printf("Found %d files in total\n", len(files))
 }

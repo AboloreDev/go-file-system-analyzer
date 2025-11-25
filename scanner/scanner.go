@@ -16,19 +16,19 @@ type FileInfo struct {
 func WalkDirectoy (root string ) ([]FileInfo, error) {
 	var files []FileInfo
 
-	err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(root, func(path string, directory fs.DirEntry, err error) error {
 		if err != nil {
 			// log the error but continue walking
 			fmt.Printf("Error accessing path %q: %v\n", path, err)
 			return nil
 		}
 
-		// skip diretories, only process files
-		if d.IsDir(){
+		// skip diretories/folder, only process files
+		if directory.IsDir(){
 			return nil
 		}
 
-		info, err := d.Info()
+		info, err := directory.Info()
 
 		if err != nil {
 			fmt.Printf("Error getting info for file %q: %v\n", path, err)
