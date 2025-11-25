@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go/scanner"
 	"os"
 )
 
@@ -29,4 +30,6 @@ func main() {
 	} else {
 		fmt.Println("Duplicate file detection is disabled")
 	}
+
+	files, err := scanner.Walkdirectory(*dirPath)
 }
